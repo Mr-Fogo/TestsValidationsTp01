@@ -3,7 +3,6 @@ C:\Users\flori\Desktop\EdouardStress\TestsValidationsTp01\Source\bin\Debug\net7.
 C:\Users\flori\Desktop\EdouardStress\TestsValidationsTp01\Source\bin\Debug\net7.0\MorpionApp.runtimeconfig.json
 C:\Users\flori\Desktop\EdouardStress\TestsValidationsTp01\Source\bin\Debug\net7.0\MorpionApp.dll
 C:\Users\flori\Desktop\EdouardStress\TestsValidationsTp01\Source\bin\Debug\net7.0\MorpionApp.pdb
-C:\Users\flori\Desktop\EdouardStress\TestsValidationsTp01\Source\obj\Debug\net7.0\MorpionApp.csproj.AssemblyReference.cache
 C:\Users\flori\Desktop\EdouardStress\TestsValidationsTp01\Source\obj\Debug\net7.0\MorpionApp.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\flori\Desktop\EdouardStress\TestsValidationsTp01\Source\obj\Debug\net7.0\MorpionApp.AssemblyInfoInputs.cache
 C:\Users\flori\Desktop\EdouardStress\TestsValidationsTp01\Source\obj\Debug\net7.0\MorpionApp.AssemblyInfo.cs
@@ -13,3 +12,4 @@ C:\Users\flori\Desktop\EdouardStress\TestsValidationsTp01\Source\obj\Debug\net7.
 C:\Users\flori\Desktop\EdouardStress\TestsValidationsTp01\Source\obj\Debug\net7.0\MorpionApp.pdb
 C:\Users\flori\Desktop\EdouardStress\TestsValidationsTp01\Source\obj\Debug\net7.0\MorpionApp.genruntimeconfig.cache
 C:\Users\flori\Desktop\EdouardStress\TestsValidationsTp01\Source\obj\Debug\net7.0\ref\MorpionApp.dll
+C:\Users\flori\Desktop\EdouardStress\TestsValidationsTp01\Source\obj\Debug\net7.0\MorpionApp.sourcelink.json

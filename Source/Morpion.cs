@@ -1,265 +1,134 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MorpionApp
 {
-    public class Morpion
+    public class Morpion : Game
     {
-        public bool quiterJeu = false;
-        public bool tourDuJoueur = true;
-        public char[,] grille;
-
-        public Morpion()
+        public Morpion() : base(3, 3, 3)
         {
-            grille = new char[3, 3];
         }
 
-        public void BoucleJeu()
+        public override bool CheckEquality()
         {
-            while (!quiterJeu)
+            int comp = 0;
+            for (int row = 0; row < Rows; row++)
             {
-                grille = new char[3, 3]
+                for (int column = 0; column < Columns; column++)
                 {
-                    { ' ', ' ', ' '},
-                    { ' ', ' ', ' '},
-                    { ' ', ' ', ' '},
-                };
-                while (!quiterJeu)
-                {
-                    if (tourDuJoueur)
+                    if (board.Cell[row, column] != ' ')
                     {
-                        tourJoueur();
-                        if (verifVictoire('X'))
+                        comp++;
+                    }
+                }
+            }
+            return comp == Rows * Columns;
+        }
+
+        public override bool CheckVictory()
+        {
+            for (int row = 0; row < Rows; row++)
+            {
+                if (IsRowWinnable(row))
+                {
+                    return true;
+                }
+            }
+
+            for (int column = 0; column < Columns; column++)
+            {
+                if (IsColumnWinnable(column))
+                {
+                    return true;
+                }
+            }
+
+            for (int i = 1; i <= 2; i++)
+            {
+                if (IsDiagonalWinnable())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool IsDiagonalWinnable()
+        {
+            return IsUpDiagonalWinnable() || IsDownDiagonalWinnable();
+        }
+
+        private bool IsUpDiagonalWinnable()
+        {
+            for (int row = NumberForWin - 1; row < Rows; row++)
+            {
+                for (int column = 0; column <= Columns - NumberForWin; column++)
+                {
+                    bool win = true;
+                    for (int k = 0; k < NumberForWin; k++)
+                    {
+                        if (board.Cell[row - k, column + k] != CurrentPlayer.Symbole)
                         {
-                            finPartie("Le joueur 1 à gagné !");
+                            win = false;
                             break;
                         }
                     }
-                    else
+                    if (win)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        private bool IsDownDiagonalWinnable()
+        {
+            for (int row = 0; row <= Rows - NumberForWin; row++)
+            {
+                for (int column = 0; column <= Columns - NumberForWin; column++)
+                {
+                    bool win = true;
+                    for (int k = 0; k < NumberForWin; k++)
                     {
-                        tourJoueur2();
-                        if (verifVictoire('O'))
+                        if (board.Cell[row + k, column + k] != CurrentPlayer.Symbole)
                         {
-                            finPartie("Le joueur 2 à gagné !");
+                            win = false;
                             break;
                         }
                     }
-                    tourDuJoueur = !tourDuJoueur;
-                    if (verifEgalite())
-                    {
-                        finPartie("Aucun vainqueur, la partie se termine sur une égalité.");
-                        break;
-                    }
+                    if (win)
+                        return true;
                 }
-                if (!quiterJeu)
-                {
-                    Console.WriteLine("Appuyer sur [Echap] pour quitter, [Entrer] pour rejouer.");
-                    GetKey:
-                        switch (Console.ReadKey(true).Key)
-                        {
-                            case ConsoleKey.Enter:
-                                break;
-                            case ConsoleKey.Escape:
-                                quiterJeu = true;
-                                Console.Clear();
-                                break;
-                            default:
-                                goto GetKey;
-                        }
-                }
-
             }
+            return false;
         }
 
-        public void tourJoueur()
+        private bool IsColumnWinnable(int column)
         {
-            var (row, column) = (0, 0);
-            bool moved = false;
+            int numberComboWin = 0;
 
-            while (!quiterJeu && !moved)
+            for (int row = 0; row < Rows; row++)
             {
-                Console.Clear();
-                affichePlateau();
-                Console.WriteLine();
-                Console.WriteLine("Choisir une case valide est appuyer sur [Entrer]");
-                Console.SetCursorPosition(column * 6 + 1, row * 4 + 1);
-
-                switch (Console.ReadKey(true).Key)
+                if (board.Cell[row, column] == CurrentPlayer.Symbole)
                 {
-                    case ConsoleKey.Escape:
-                        quiterJeu = true;
-                        Console.Clear();
-                        break;
-
-                    case ConsoleKey.RightArrow:
-                        if (column >= 2)
-                        {
-                            column = 0;
-                        }
-                        else
-                        {
-                            column = column + 1;
-                        }
-                        break;
-
-                    case ConsoleKey.LeftArrow:
-                        if (column <= 0)
-                        {
-                            column = 2;
-                        }
-                        else
-                        {
-                            column = column - 1;
-                        }
-                        break;
-
-                    case ConsoleKey.UpArrow:
-                        if (row <= 0)
-                        {
-                            row = 2;
-                        }
-                        else
-                        {
-                            row = row - 1;
-                        }
-                        break;
-
-                    case ConsoleKey.DownArrow:
-                        if (row >= 2)
-                        {
-                            row = 0;
-                        }
-                        else
-                        {
-                            row = row + 1;
-                        }
-                        break;
-                    case ConsoleKey.Enter:
-                        if (grille[row, column] is ' ')
-                        {
-                            grille[row, column] = 'X';
-                            moved = true;
-                            quiterJeu = false;
-                        }
-                        break;
+                    numberComboWin++;
                 }
-
             }
+
+            return numberComboWin == NumberForWin;
         }
 
-        public void tourJoueur2()
+        private bool IsRowWinnable(int row)
         {
-            var (row, column) = (0, 0);
-            bool moved = false;
+            int nbCasesGagnantes = 0;
 
-            while (!quiterJeu && !moved)
+            for (int column = 0; column < Columns; column++)
             {
-                Console.Clear();
-                affichePlateau();
-                Console.WriteLine();
-                Console.WriteLine("Choisir une case valide est appuyer sur [Entrer]");
-                Console.SetCursorPosition(column * 6 + 1, row * 4 + 1);
-
-                switch (Console.ReadKey(true).Key)
+                if (board.Cell[row, column] == CurrentPlayer.Symbole)
                 {
-                    case ConsoleKey.Escape:
-                        quiterJeu = true;
-                        Console.Clear();
-                        break;
-
-                    case ConsoleKey.RightArrow:
-                        if (column >= 2)
-                        {
-                            column = 0;
-                        }
-                        else
-                        {
-                            column = column + 1;
-                        }
-                        break;
-
-                    case ConsoleKey.LeftArrow:
-                        if (column <= 0)
-                        {
-                            column = 2;
-                        }
-                        else
-                        {
-                            column = column - 1;
-                        }
-                        break;
-
-                    case ConsoleKey.UpArrow:
-                        if (row <= 0)
-                        {
-                            row = 2;
-                        }
-                        else
-                        {
-                            row = row - 1;
-                        }
-                        break;
-
-                    case ConsoleKey.DownArrow:
-                        if (row >= 2)
-                        {
-                            row = 0;
-                        }
-                        else
-                        {
-                            row = row + 1;
-                        }
-                        break;
-                    case ConsoleKey.Enter:
-                        if (grille[row, column] is ' ')
-                        {
-                            grille[row, column] = 'O';
-                            moved = true;
-                            quiterJeu = false;
-                        }
-                        break;
+                    nbCasesGagnantes++;
                 }
             }
-        }
 
-        public void affichePlateau()
-        {
-            Console.WriteLine();
-            Console.WriteLine($" {grille[0, 0]}  |  {grille[0, 1]}  |  {grille[0, 2]}");
-            Console.WriteLine("    |     |");
-            Console.WriteLine("----+-----+----");
-            Console.WriteLine("    |     |");
-            Console.WriteLine($" {grille[1, 0]}  |  {grille[1, 1]}  |  {grille[1, 2]}");
-            Console.WriteLine("    |     |");
-            Console.WriteLine("----+-----+----");
-            Console.WriteLine("    |     |");
-            Console.WriteLine($" {grille[2, 0]}  |  {grille[1, 1]}  |  {grille[0, 2]}");
-        }
-
-        public bool verifVictoire(char c) =>
-             grille[0, 0] == c && grille[1, 0] == c && grille[2, 0] == c ||
-             grille[0, 1] == c && grille[1, 1] == c && grille[2, 1] == c ||
-             grille[0, 2] == c && grille[1, 2] == c && grille[2, 2] == c ||
-             grille[0, 0] == c && grille[1, 1] == c && grille[2, 2] == c ||
-             grille[1, 0] == c && grille[1, 1] == c && grille[1, 2] == c ||
-             grille[2, 0] == c && grille[2, 1] == c && grille[2, 2] == c ||
-             grille[0, 0] == c && grille[1, 1] == c && grille[2, 2] == c ||
-             grille[2, 0] == c && grille[1, 1] == c && grille[0, 2] == c;
-
-        public bool verifEgalite() =>
-            grille[0, 0] != ' ' && grille[1, 0] != ' ' && grille[2, 0] != ' ' &&
-            grille[0, 1] != ' ' && grille[1, 1] != ' ' && grille[2, 1] != ' ' &&
-            grille[0, 2] != ' ' && grille[1, 2] != ' ' && grille[2, 2] != ' ';
-
-
-        public void finPartie(string msg)
-        {
-            Console.Clear();
-            affichePlateau();
-            Console.WriteLine(msg);
+            return nbCasesGagnantes == NumberForWin;
         }
     }
 }

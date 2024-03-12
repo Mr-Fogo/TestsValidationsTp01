@@ -10,47 +10,33 @@ namespace MorpionApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Jouer à quel jeu ? Taper [X] pour le morpion et [P] pour le puissance 4.");
-        GetKey:
-            switch (Console.ReadKey(true).Key)
+            while (true)
             {
-                case ConsoleKey.X:
-                    Morpion morpion = new Morpion();
-                    morpion.BoucleJeu();
-                    break;
-                case ConsoleKey.P:
-                    PuissanceQuatre puissanceQuatre = new PuissanceQuatre();
-                    puissanceQuatre.BoucleJeu();
-                    break;
-                default:
-                    goto GetKey;
+                Console.Clear();
+                Console.WriteLine("Jouer à quel jeu ? Taper [X] pour le morpion et [P] pour le puissance 4 ou [Echap] pour quitter.");
+
+                ConsoleKey key;
+                do
+                {
+                    key = Console.ReadKey(true).Key;
+                } while (key != ConsoleKey.X && key != ConsoleKey.P && key != ConsoleKey.Escape);
+
+                switch (key)
+                {
+                    case ConsoleKey.X:
+                        Morpion morpion = new Morpion();
+                        morpion.GameLoop();
+                        break;
+                    case ConsoleKey.P:
+                        Power4 puissanceQuatre = new Power4();
+                        puissanceQuatre.GameLoop();
+                        break;
+                    case ConsoleKey.Escape:
+                        return;
+                }
             }
-            Console.WriteLine("Jouer à un autre jeu ? Taper [R] pour changer de jeu. Taper [Echap] pour quitter.");
-        GetKey1:
-            switch (Console.ReadKey(true).Key)
-            {
-                case ConsoleKey.R:
-                    Console.WriteLine("Jouer à quel jeu ? Taper [X] pour le morpion et [P] pour le puissance 4.");
-                GetKey2:
-                    switch (Console.ReadKey(true).Key)
-                    {
-                        case ConsoleKey.X:
-                            Morpion morpion = new Morpion();
-                            morpion.BoucleJeu();
-                            break;
-                        case ConsoleKey.P:
-                            PuissanceQuatre puissanceQuatre = new PuissanceQuatre();
-                            puissanceQuatre.BoucleJeu();
-                            break;
-                        default:
-                            goto GetKey2;
-                    }
-                    break;
-                case ConsoleKey.Escape:
-                    break;
-                default:
-                    goto GetKey1;
-            }
-        }        
+        }
     }
 }
+
+
