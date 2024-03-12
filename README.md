@@ -6,6 +6,7 @@ Voici une liste des éléments du logiciel actuel qui rendent la validation diff
 
 ## Problèmes de Code
 
+
 ### Bloaters:
 - **Méthodes Volumineuses**: Les fonctions `tourJoueur()` et `tourJoueur2()` dépassent chacune la limite de 30 lignes.
 
