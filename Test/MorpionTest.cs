@@ -5,64 +5,77 @@ namespace Test
     public class MorpionTest
     {
         [Fact]
-        public void TestVerifVictoireLigne()
+        public void CheckEqualityTest()
         {
             Morpion morpion = new Morpion();
-            morpion.grille = new char[3, 3]
-            {
-                { 'X', 'X', 'X'},
-                { ' ', ' ', ' '},
-                { ' ', ' ', ' '},
-            };
-            Assert.True(morpion.verifVictoire('X'));
+            morpion.board.Cell[0, 0] = 'X';
+            morpion.board.Cell[0, 1] = 'O';
+            morpion.board.Cell[0, 2] = 'X';
+            morpion.board.Cell[1, 0] = 'O';
+            morpion.board.Cell[1, 1] = 'X';
+            morpion.board.Cell[1, 2] = 'O';
+            morpion.board.Cell[2, 0] = 'X';
+            morpion.board.Cell[2, 1] = 'O';
+            morpion.board.Cell[2, 2] = 'X';
+            Assert.True(morpion.CheckEquality());
         }
         [Fact]
-        public void TestVerifVictoireColonne()
+        public void CheckVictoryTest()
         {
             Morpion morpion = new Morpion();
-            morpion.grille = new char[3, 3]
-            {
-                { 'X', ' ', ' '},
-                { 'X', ' ', ' '},
-                { 'X', ' ', ' '},
-            };
-            Assert.True(morpion.verifVictoire('X'));
+            morpion.board.InitBoard();
+            morpion.CurrentPlayer = morpion.Players[0];
+            morpion.board.Cell[0, 0] = 'X';
+            morpion.board.Cell[0, 1] = 'O';
+            morpion.board.Cell[0, 2] = 'X';
+            morpion.board.Cell[1, 0] = 'O';
+            morpion.board.Cell[1, 1] = 'X';
+            morpion.board.Cell[1, 2] = 'O';
+            morpion.board.Cell[2, 0] = 'X';
+            morpion.board.Cell[2, 1] = 'O';
+            morpion.board.Cell[2, 2] = 'X';
+            Assert.True(morpion.CheckVictory());
         }
         [Fact]
-        public void TestVerifVictoireDiagonale()
+        public void IsRowWinnableTest()
         {
             Morpion morpion = new Morpion();
-            morpion.grille = new char[3, 3]
-            {
-                { 'X', ' ', ' '},
-                { ' ', 'X', ' '},
-                { ' ', ' ', 'X'},
-            };
-            Assert.True(morpion.verifVictoire('X'));
+            morpion.CurrentPlayer = morpion.Players[0];
+            morpion.board.InitBoard();
+            morpion.board.Cell[0, 0] = 'X';
+            morpion.board.Cell[0, 1] = 'X';
+            morpion.board.Cell[0, 2] = 'X';
+            Assert.True(morpion.IsRowWinnable(0));
         }
         [Fact]
-        public void TestVerifVictoireEgaliter()
+        public void IsDiagonalWinnableTest()
         {
             Morpion morpion = new Morpion();
-            morpion.grille = new char[3, 3]
-            {
-                { 'X', 'O', 'X'},
-                { 'X', 'O', 'O'},
-                { 'O', 'X', 'X'},
-            };
-            Assert.False(morpion.verifVictoire('X'));
+            morpion.CurrentPlayer = morpion.Players[0];
+            morpion.board.Cell[0, 0] = 'X';
+            morpion.board.Cell[1, 1] = 'X';
+            morpion.board.Cell[2, 2] = 'X';
+            Assert.True(morpion.IsDiagonalWinnable());
         }
         [Fact]
-        public void TestVerifEgalite()
+        public void IsDownDiagonalWinnableTest()
         {
             Morpion morpion = new Morpion();
-            morpion.grille = new char[3, 3]
-            {
-                { 'X', 'O', 'X'},
-                { 'X', 'O', 'O'},
-                { 'O', 'X', 'X'},
-            };
-            Assert.True(morpion.verifEgalite());
+            morpion.CurrentPlayer = morpion.Players[0];
+            morpion.board.Cell[0, 0] = 'X';
+            morpion.board.Cell[1, 1] = 'X';
+            morpion.board.Cell[2, 2] = 'X';
+            Assert.True(morpion.IsDownDiagonalWinnable());
+        }
+        [Fact]
+        public void IsUpDiagonalWinnableTest()
+        {
+            Morpion morpion = new Morpion();
+            morpion.CurrentPlayer = morpion.Players[0];
+            morpion.board.Cell[0, 2] = 'X';
+            morpion.board.Cell[1, 1] = 'X';
+            morpion.board.Cell[2, 0] = 'X';
+            Assert.True(morpion.IsUpDiagonalWinnable());
         }
     }
 }

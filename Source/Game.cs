@@ -5,8 +5,9 @@ namespace MorpionApp
 {
     public abstract class Game
     {
-        private const int WidthCase = 3;
-        private const int HeightCase = 4;
+        public const int WidthCase = 3;
+        public const int HeightCase = 4;
+
 
         public List<Player> Players = new List<Player> { new Player("Joueur 1", 'X'), new Player("Joueur 2", 'O') };
         public Player CurrentPlayer;
@@ -16,10 +17,10 @@ namespace MorpionApp
         public int column = 0;
         public bool quit = false;
 
-        protected readonly int Rows;
-        protected readonly int Columns;
-        protected readonly int NumberForWin;
-        protected readonly Board board;
+        public readonly int Rows;
+        public readonly int Columns;
+        public readonly int NumberForWin;
+        public readonly Board board;
 
         public Game(int rows, int columns, int numberForWin)
         {
@@ -127,7 +128,7 @@ namespace MorpionApp
             }
         }
 
-        private void ShowWinner()
+        public void ShowWinner()
         {
             board.DrawBoard(Rows, Columns);
             Console.WriteLine("Le joueur " + CurrentPlayer.Name + " a gagné !");

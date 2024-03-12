@@ -60,7 +60,7 @@ namespace MorpionApp
 
         }
 
-        private bool IsRowWinnable(int row)
+        public bool IsRowWinnable(int row)
         {
             int numberComboWin = 0;
 
@@ -82,7 +82,7 @@ namespace MorpionApp
 
             return false;
         }
-        private bool IsColumnWinnable(int column)
+        public bool IsColumnWinnable(int column)
         {
             int numberComboWin = 0;
 
@@ -104,12 +104,12 @@ namespace MorpionApp
 
             return false;
         }
-        private bool IsDiagonaleWinnable()
+        public bool IsDiagonaleWinnable()
         {
             return IsDiagonaleDownWinnable() || IsDiagonaleUpWinnable();
         }
 
-        private bool IsDiagonaleUpWinnable()
+        public bool IsDiagonaleUpWinnable()
         {
             for (int row = NumberForWin - 1; row < Rows; row++)
             {
@@ -130,7 +130,7 @@ namespace MorpionApp
             }
             return false;
         }
-        private bool IsDiagonaleDownWinnable()
+        public bool IsDiagonaleDownWinnable()
         {
             for (int row = 0; row <= Rows - NumberForWin; row++)
             {
@@ -172,7 +172,7 @@ namespace MorpionApp
                     break;
             }
         }
-        private bool IsColumnFull(int colonne)
+        public bool IsColumnFull(int colonne)
         {
             for (int ligne = 0; ligne < Rows; ligne++)
             {
